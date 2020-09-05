@@ -52,19 +52,14 @@ execute_workload() {
 startup_workload "workloada"
 execute_workload "mongodb" "workloada"
 
-startup_workload "workloadb"
 execute_workload "mongodb" "workloadb"
 
-startup_workload "workloadc"
 execute_workload "mongodb" "workloadc"
 
-startup_workload "workloadd"
 execute_workload "mongodb" "workloadd"
 
-startup_workload "workloade"
 execute_workload "mongodb" "workloade"
 
-startup_workload "workloadf"
 execute_workload "mongodb" "workloadf"
 
 
