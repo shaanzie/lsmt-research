@@ -1,7 +1,7 @@
 #!/bin/bash
 
 startup_workload() {
-    ~/ycsb/bin/ycsb load mongodb-async workloads/$1 
+    ~/ycsb/bin/ycsb load -s -P mongodb-async ~/ycsb/workloads/$1 
 }
 
 execute_workload() {
@@ -24,7 +24,7 @@ execute_workload() {
     sync
     sleep 1
 
-    command="~/ycsb/bin/ycsb run mongodb-async workloads/$workload"
+    command="~/ycsb/bin/ycsb run -s -P mongodb-async ~/ycsb/workloads/$workload"
 
     echo "Executing $command"
 
