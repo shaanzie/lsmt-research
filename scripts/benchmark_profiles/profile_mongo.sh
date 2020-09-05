@@ -18,33 +18,33 @@ execute_workload() {
 
     echo "===== $bench : $workload ======"
 
-    # sar -r ALL -u ALL -o $sar_file $sar_delay >/dev/null 2>&1 &
-    # sar_process=$!
+    sar -r ALL -u ALL -o $sar_file $sar_delay >/dev/null 2>&1 &
+    sar_process=$!
 
-    # sync
-    # sleep 1
+    sync
+    sleep 1
 
     command="~/ycsb/bin/ycsb run -s -P mongodb-async ~/ycsb/workloads/$workload"
 
     echo "Executing $command"
 
-    # timepid=$!
-    # bashpid=`ps -elf | grep "$command" | grep -v "/usr/bin/time" |  grep -v "grep" |   tr -s " " | cut -d " " -f 4`
-    # sleep 3
+    timepid=$!
+    bashpid=`ps -elf | grep "$command" | grep -v "/usr/bin/time" |  grep -v "grep" |   tr -s " " | cut -d " " -f 4`
+    sleep 3
 
     echo -e "Bash: $bashpid"
     pidstat -h -d -r -s -u -T ALL $sar_delay -e $command > $pidstat_file
     pidstat=$!
 
-    # echo "killing sar"
-    # kill -9 $sar_process
-    # sleep 1
+    echo "killing sar"
+    kill -9 $sar_process
+    sleep 1
 
-    # echo "killing pidstat"
-    # kill -9 $pidstat
-    # sleep 1
+    echo "killing pidstat"
+    kill -9 $pidstat
+    sleep 1
 
-    # sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
+    sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
 
     sleep 5
 }
