@@ -1,7 +1,7 @@
 #!/bin/bash
 
 startup_workload() {
-    ~/ycsb/bin/ycsb load -s -P mongodb-async ~/ycsb/workloads/$1 
+    /home/ubuntu/ycsb/bin/ycsb load -s -P mongodb-async /home/ubuntu/ycsb/workloads/$1 
 }
 
 execute_workload() {
@@ -24,7 +24,7 @@ execute_workload() {
     sync
     sleep 1
 
-    command="~/ycsb/bin/ycsb run -s -P mongodb-async ~/ycsb/workloads/$workload"
+    command="/home/ubuntu/ycsb/bin/ycsb run -s -P mongodb-async /home/ubuntu/ycsb/workloads/$workload"
 
     echo "Executing $command"
 
@@ -50,6 +50,7 @@ execute_workload() {
 }
 
 startup_workload "workloada"
+
 execute_workload "mongodb" "workloada"
 
 execute_workload "mongodb" "workloadb"
@@ -61,7 +62,6 @@ execute_workload "mongodb" "workloadd"
 execute_workload "mongodb" "workloade"
 
 execute_workload "mongodb" "workloadf"
-
 
 mkdir -p ~/DB-data/mongodb/$size/
 mv *.csv ~/DB-data/mongodb/$size/
