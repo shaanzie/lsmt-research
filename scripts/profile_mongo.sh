@@ -1,7 +1,7 @@
 #!/bin/bash
 
 startup_workload() {
-    /home/ubuntu/ycsb/bin/ycsb load -s -P mongodb-async /home/ubuntu/ycsb/workloads/$1 
+    /home/ubuntu/ycsb/bin/ycsb load -P mongodb /home/ubuntu/ycsb/workloads/$1 
 }
 
 execute_workload() {
@@ -24,15 +24,13 @@ execute_workload() {
     sync
     sleep 1
 
-    command="/home/ubuntu/ycsb/bin/ycsb run -s -P mongodb-async /home/ubuntu/ycsb/workloads/$workload"
+    command="/home/ubuntu/ycsb/bin/ycsb run -P mongodb /home/ubuntu/ycsb/workloads/$workload"
 
     echo "Executing $command"
 
     timepid=$!
-    bashpid=`ps -elf | grep "$command" | grep -v "/usr/bin/time" |  grep -v "grep" |   tr -s " " | cut -d " " -f 4`
     sleep 3
 
-    echo -e "Bash: $bashpid"
     pidstat -h -d -r -s -u -T ALL $sar_delay -e $command > $pidstat_file
     pidstat=$!
 
@@ -48,6 +46,8 @@ execute_workload() {
 
     sleep 5
 }
+
+size="tiny"
 
 startup_workload "workloada"
 
