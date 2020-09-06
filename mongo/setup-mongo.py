@@ -1,17 +1,29 @@
+from Crypto.Random import get_random_bytes
 import pymongo
-import lorem
 import sys
+import string
 import random
+
+def get_random_sting(length):
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str
 
 client = pymongo.MongoClient()
 db = client['benchmark']
 
 for i in range(sys.argv[1]):
     insertQuery = {
-        "text1":lorem.sentence,
-        "text2":lorem.sentence,
-        "text3":lorem.sentence,
-        "text4":lorem.sentence,
+        "col1": get_random_string(100),
+        "col2": get_random_string(100),
+        "col3": get_random_string(100),
+        "col4": get_random_string(100),
+        "col5": get_random_string(100),
+        "col6": get_random_string(100),
+        "col7": get_random_string(100),
+        "col8": get_random_string(100),
+        "col9": get_random_string(100),
+        "col10": get_random_string(100),
     }
-    table = db.table
+    table = db['mongobench']
     table.insert_one(insertQuery)
