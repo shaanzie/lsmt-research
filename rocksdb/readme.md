@@ -2,7 +2,7 @@
 
 ```
 make all
-./setup_rocksdb
+./setup_rocksdb <num_records> <database_location>
 ```
 
 The scripts assume that the rocksdb source is available at ```~/rocksdb```
