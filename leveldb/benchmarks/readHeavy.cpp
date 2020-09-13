@@ -1,4 +1,4 @@
-#include "run_workload.cpp"
+#include "./../../scripts/benchmarking/run_workload.cpp"
 #include <cassert>
 #include "leveldb/db.h"
 
