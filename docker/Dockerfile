@@ -32,9 +32,10 @@ cd include; \
 scp -r leveldb /usr/local/include; \
 ldconfig
 
-RUN apt-get install -y libgflags-dev libsnappy-dev zlib1g-dev libbz2-dev libzstd-dev; \
+RUN apt-get install -y libgflags-dev libsnappy-dev zlib1g-dev libbz2-dev libzstd-dev build-essential ; \
 git clone https://github.com/facebook/rocksdb.git /rocksdb; \
 cd /rocksdb; \
-make all
+DEBUG_LEVEL=0 make static_lib ; \
+ldconfig
 
 RUN apt-get install -y sysstat ;
