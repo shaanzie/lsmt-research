@@ -93,3 +93,26 @@ public:
 
 
 };
+
+void set_proportions_by_workload_type(std::string workload_type, double& read_proportion, double& write_proportion, double& update_proportion){
+  if(workload_type == "update_heavy"){
+    update_proportion = 0.95;
+    write_proportion = 0.03;
+    read_proportion = 0.02;
+  }
+  else if (workload_type == "read_heavy"){
+    read_proportion = 0.95;
+    write_proportion = 0.03;
+    update_proportion = 0.02;
+  }
+  else if (workload_type == "write_heavy"){
+    write_proportion = 0.95;
+    read_proportion = 0.03;
+    update_proportion = 0.02;
+  }
+  else if (workload_type == "read_and_modify"){
+    read_proportion = 0.48;
+    write_proportion = 0.04;
+    update_proportion = 0.48;
+  }
+}
