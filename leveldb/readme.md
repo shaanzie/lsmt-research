@@ -1,7 +1,7 @@
 ## Execution
 
 ```
-g++ setup_leveldb.cpp -lleveldb -lsnappy -lpthread
+g++ setup_leveldb.cpp -lleveldb -lsnappy -lpthread -std=c++17
 ./a.out <num_records> <database_location>
 ```
 
