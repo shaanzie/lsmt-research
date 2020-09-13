@@ -54,6 +54,11 @@ public:
     throw std::string("should not get here.");
   }
 
+  std::string next_query_py() {
+    // since string views dont seem to work with python bindings
+    return (std::string) this -> next_query();
+  }
+
 };
 
 // # if 0
