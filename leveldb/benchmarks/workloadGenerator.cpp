@@ -1,9 +1,18 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include <iostream>
 #include <unordered_map>
+#include <cassert>
+#include <time.h>
 
+class workload_properties{
+public:
+  long int num_records_;
+  double read_proportion_;
+  double write_proportion_;
+  double update_proportion_;
+
+  workload_properties(long int records, double reads, double writes, double updates): num_records_(records),
+                      read_proportion_(reads), write_proportion_(writes), update_proportion_(updates) {}
+};
 
 class QueryGenerator{
 
@@ -47,31 +56,31 @@ public:
 
 };
 
-# if 0
-int main(int argc, char const *argv[]){
-  QueryGenerator obj(0.1, 0.7, 0.2);
-
-  int writecount = 0;
-  int readcount = 0;
-  int updatecount = 0;
-
-  std::string_view read = "READ";
-  std::string_view write = "WRITE";
-  std::string_view update = "UPDATE";
-
-  for(int i = 0; i < atoi(argv[1]); i++){
-    auto result = obj.next_query();
-
-    if (result == read) ++readcount;
-    else if (result == update) ++updatecount;
-    else if (result == write) ++writecount;
-  }
-
-  std::cout << "[READS] " << readcount << std::endl;
-  std::cout << "[WRITES] " << writecount << std::endl;
-  std::cout << "[UPDATES] " << updatecount << std::endl;
-
-  return 0;
-}
-
-#endif
+// # if 0
+// int main(int argc, char const *argv[]){
+//   QueryGenerator obj(0.1, 0.7, 0.2);
+//
+//   int writecount = 0;
+//   int readcount = 0;
+//   int updatecount = 0;
+//
+//   std::string_view read = "READ";
+//   std::string_view write = "WRITE";
+//   std::string_view update = "UPDATE";
+//
+//   for(int i = 0; i < atoi(argv[1]); i++){
+//     auto result = obj.next_query();
+//
+//     if (result == read) ++readcount;
+//     else if (result == update) ++updatecount;
+//     else if (result == write) ++writecount;
+//   }
+//
+//   std::cout << "[READS] " << readcount << std::endl;
+//   std::cout << "[WRITES] " << writecount << std::endl;
+//   std::cout << "[UPDATES] " << updatecount << std::endl;
+//
+//   return 0;
+// }
+//
+// #endif
