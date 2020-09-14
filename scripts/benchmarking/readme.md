@@ -28,3 +28,11 @@ query_gen.get_query_type()
 
 # based on the query types returned, one can make the right calls to the database
 ```
+
+#### Alternative Option for Ubuntu:
+run
+```
+cmake .
+make
+```
+This also generates a Workload.so file.
