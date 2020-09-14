@@ -12,7 +12,7 @@ def get_random_sting(length):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--numops", help="Number of operations (default: 1000)", default=1000)
-parser.add_argument("--type", help="Type of Workload (readHeavy, writeHeavy, updateHeavy)", default=True)
+parser.add_argument("--type", help="Type of Workload (readHeavy, writeHeavy, updateHeavy, readAndModify)", default=True)
 args = parser.parse_args()
 
 client = pymongo.MongoClient()
@@ -35,6 +35,10 @@ if(args.type == 'updateHeavy'):
     readprop = 0.1
     writeprop = 0.1
     updateprop = 0.8
+if(args.type == 'readAndModify'):
+    readprop = 0.4
+    writeprop = 0.2
+    updateprop = 0.4
 
 query_gen = Workload.QueryGenerator(readprop, writeprop, updateprop)
 

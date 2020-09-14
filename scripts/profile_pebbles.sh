@@ -69,6 +69,8 @@ execute_workload "pebblesdb" "update_heavy" $numops
 
 execute_workload "pebblesdb" "read_heavy" $numops
 
+execute_workload "pebblesdb" "read_and_modify" $numops
+
 mkdir -p ~/DB-data/pebblesdb
 mv *.csv ~/DB-data/pebblesdb
 mv *.pidstat ~/DB-data/pebblesdb
