@@ -5,7 +5,7 @@ services:
     container_name: cassandra
     image: cassandra:latest
     volumes:
-      - /Users/caitlincjohnson/github/udacity/project_cassandra/cassandra/var/lib/cassandra/data
+      - /var/lib/cassandra/data
     ports:
       - 9042:9042
     environment:
@@ -13,12 +13,4 @@ services:
       - CASSANDRA_CLUSTER_NAME=MyCluster
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
       - CASSANDRA_DC=datacenter
-  myapp:
-    build: .
-    command: sh -c "sleep 60"
-    volumes:
-      - .:/code
-    depends_on:
-      - cassandra
-    environment:
-      - CASSANDRA_HOST=cassandra
+      
