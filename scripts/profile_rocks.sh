@@ -26,7 +26,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./home/ubuntu/lsmt-research/rocksdb/a.out $ops /db $workload"
+    command="./a.out $ops /db $workload"
 
     timepid=$!
     sleep 3
@@ -68,6 +68,8 @@ execute_workload "rocksdb" "write_heavy" $numops
 execute_workload "rocksdb" "update_heavy" $numops
 
 execute_workload "rocksdb" "read_heavy" $numops
+
+execute_workload "rocksdb" "read_and_modify" $numops
 
 mkdir -p ~/DB-data/rocksdb
 mv *.csv ~/DB-data/rocksdb

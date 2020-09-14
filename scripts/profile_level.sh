@@ -26,7 +26,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./home/ubuntu/lsmt-research/leveldb/a.out $ops /db $workload"
+    command="./a.out $ops /db $workload"
 
     timepid=$!
     sleep 3
@@ -68,6 +68,8 @@ execute_workload "leveldb" "write_heavy" $numops
 execute_workload "leveldb" "update_heavy" $numops
 
 execute_workload "leveldb" "read_heavy" $numops
+
+execute_workload "leveldb" "read_and_modify" $numops
 
 mkdir -p ~/DB-data/leveldb
 mv *.csv ~/DB-data/leveldb

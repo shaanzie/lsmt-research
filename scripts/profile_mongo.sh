@@ -75,6 +75,8 @@ execute_workload "mongodb" "updateHeavy" $numops
 
 execute_workload "mongodb" "readHeavy" $numops
 
+execute_workload "mongodb" "readAndModify" $numops
+
 mkdir -p ~/DB-data/mongodb
 mv *.csv ~/DB-data/mongodb
 mv *.pidstat ~/DB-data/mongodb

@@ -26,7 +26,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./home/ubuntu/lsmt-research/pebblesdb/a.out $ops /db $workload"
+    command="./a.out $ops /db $workload"
 
     timepid=$!
     sleep 3
@@ -68,6 +68,8 @@ execute_workload "pebblesdb" "write_heavy" $numops
 execute_workload "pebblesdb" "update_heavy" $numops
 
 execute_workload "pebblesdb" "read_heavy" $numops
+
+execute_workload "pebblesdb" "read_and_modify" $numops
 
 mkdir -p ~/DB-data/pebblesdb
 mv *.csv ~/DB-data/pebblesdb
