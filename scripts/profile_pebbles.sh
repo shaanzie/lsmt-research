@@ -1,7 +1,7 @@
 #!/bin/bash
 
 startup_workload() {
-    g++ /home/ubuntu/lsmt-research/rocksdb/setup_rocksdb.cpp -lrocksdb -lsnappy -lpthread -std=c++17
+    g++ /home/ubuntu/lsmt-research/pebblesdb/setup_pebblesdb.cpp -lpebblesdb -lsnappy -lpthread -std=c++17
 }
 
 execute_workload() {
@@ -26,7 +26,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./home/ubuntu/lsmt-research/rocksdb/a.out $ops /db $workload"
+    command="./home/ubuntu/lsmt-research/pebblesdb/a.out $ops /db $workload"
 
     timepid=$!
     sleep 3
@@ -63,13 +63,13 @@ done
 
 startup_workload $recordcount
 
-execute_workload "rocksdb" "write_heavy" $numops
+execute_workload "pebblesdb" "write_heavy" $numops
 
-execute_workload "rocksdb" "update_heavy" $numops
+execute_workload "pebblesdb" "update_heavy" $numops
 
-execute_workload "rocksdb" "read_heavy" $numops
+execute_workload "pebblesdb" "read_heavy" $numops
 
-mkdir -p ~/DB-data/rocksdb
-mv *.csv ~/DB-data/rocksdb
-mv *.pidstat ~/DB-data/rocksdb
+mkdir -p ~/DB-data/pebblesdb
+mv *.csv ~/DB-data/pebblesdb
+mv *.pidstat ~/DB-data/pebblesdb
 rm $sar_file

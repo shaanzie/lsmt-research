@@ -7,11 +7,11 @@ startup_workload() {
 execute_workload() {
     bench=$1
     workload=$2
-    opts=$3
+    ops=$3
     sar_delay=1
     sar_csv=sar_${bench}-${workload}.csv
     pidstat_file=${bench}-${workload}.pidstat
-    
+
     sar_file=sar_out
     rm $sar_file
 
@@ -24,23 +24,9 @@ execute_workload() {
 
     sync
     sleep 1
-    
-    case $workload in
-        "writeHeavy" ) 
-        command="python3 /home/ubuntu/lsmt-research/mongo/benchmarks/$workload.py --writeallfields $opts"
-        ;;
-        "updateHeavy" ) 
-        command="python3 /home/ubuntu/lsmt-research/mongo/benchmarks/$workload.py --writeallfields $opts"
-        ;;
-        "readAndModify" ) 
-        command="python3 /home/ubuntu/lsmt-research/mongo/benchmarks/$workload.py --readallfields $opts"
-        ;;
-        "readHeavy" ) 
-        command="python3 /home/ubuntu/lsmt-research/mongo/benchmarks/$workload.py --readallfields $opts"
-        ;;
-    esac
 
     echo "Executing $command"
+    command="python3 /home/ubuntu/lsmt-research/mongo/benchmarks/workload.py --numops $ops --type $workload"
 
     timepid=$!
     sleep 3
@@ -64,10 +50,9 @@ execute_workload() {
 recordcount=1000
 fieldcount=10
 fieldlength=100
-readallfields="True"
-writeallfields="True"
+numops=10000
 
-while getopts ":cflrw" opt; do
+while getopts ":cfln" opt; do
     case ${opt} in
         c ) $recordcount=$OPTARG
         ;;
@@ -75,26 +60,22 @@ while getopts ":cflrw" opt; do
         ;;
         l ) $fieldlength=$OPTARG
         ;;
-        r ) $readallfields=$OPTARG
+        n ) $numops=$OPTARG
         ;;
-        w ) $writeallfields=$OPTARG
-        ;;
-        \? ) echo "Usage: bash profile_mongo.sh [-c] [-f] [-l] [-r] [-w]"
+        \? ) echo "Usage: bash profile_mongo.sh [-c] [-f] [-l] [-n]"
         ;;
     esac
 done
 
 startup_workload $recordcount $fieldcount $fieldlength
 
-execute_workload "mongodb" "writeHeavy" $writeallfields
+execute_workload "mongodb" "writeHeavy" $numops
 
-execute_workload "mongodb" "updateHeavy" $writeallfields
+execute_workload "mongodb" "updateHeavy" $numops
 
-execute_workload "mongodb" "readHeavy" $readallfields
+execute_workload "mongodb" "readHeavy" $numops
 
-execute_workload "mongodb" "readAndModify" $readallfields
-
-mkdir -p ~/DB-data/mongodb/$size/
-mv *.csv ~/DB-data/mongodb/$size/
-mv *.pidstat ~/DB-data/mongodb/$size/
+mkdir -p ~/DB-data/mongodb
+mv *.csv ~/DB-data/mongodb
+mv *.pidstat ~/DB-data/mongodb
 rm $sar_file
