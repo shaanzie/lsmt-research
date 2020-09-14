@@ -26,7 +26,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./home/ubuntu/lsmt-research/rocksdb/a.out $ops /db $workload"
+    command="./a.out $ops /db $workload"
 
     timepid=$!
     sleep 3
