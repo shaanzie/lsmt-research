@@ -1,19 +1,19 @@
-from dse.cluster import Cluster
 import argparse
 from cassandra.cluster import Cluster
 import os
+import random
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--numRows", help="Number of rows to be inserted", default=1000)
+parser.add_argument("--numRows", help="Number of rows to be inserted", default=100)
 parser.add_argument("--numFields", help="Number of fields in the table", default=10)
 args = parser.parse_args()
 
-def cassandra_connection():
+def cassandra_connection(ip = '127.0.0.2', port ='9042'):
     """
     Connection object for Cassandra
     :return: session, cluster
     """
-    cluster = Cluster(['cassandra'], port=9042)
+    cluster = Cluster([ip], port)
     session = cluster.connect()
     session.execute("""
         CREATE KEYSPACE IF NOT EXISTS test
@@ -46,7 +46,26 @@ def createTable(session, nfields):
     table = session.execute(query)
     print("Created Table")
 
+def populateTable(session, nfields, nrows):
+    """
+    Populate table with nrows
+    """
+    insertion = "INSERT INTO test(col1"
+    for i in range(2, nfields + 1):
+        insertion += ", col" + str(i)
+
+    insertion += ") VALUES ("
+    for i in range(1, nrows + 1):
+        query = insertion + str(i)
+
+        for j in range(nfields - 1):
+            query += ", " + str(random.randint(1, 1000000))
+        query += ");"
+        x = session.execute(query)
+
+
 if __name__ == "__main__": 
     session, cluster = cassandra_connection()
     dropTable(session)
     createTable(session, args.numFields)
+    populateTable(session, args.numFields, args.numRows)
