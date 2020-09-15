@@ -23,3 +23,8 @@ We also provide the following options for the setup
 ```
 ./scripts/profile_<database>  [OPTIONS]
 ```
+To run the docker container
+```
+docker run -it -v <PATH>/lsmt-research:/benchsuite --name test -d lsmt
+docker exec test bash
+```

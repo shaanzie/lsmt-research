@@ -27,7 +27,7 @@ def setup(recordcount=1000, fieldcount=10, fieldlength=100):
     for i in range(recordcount):
         insertQuery = {}
         for j in range(fieldcount):
-            insertQuery["col-" + j] = get_random_sting(fieldlength)
+            insertQuery["col-" + str(j)] = get_random_sting(fieldlength)
         collect.insert_one(insertQuery)
 
-setup(args.recordcount, args.fieldcount, args.fieldlength)
+setup(int(args.recordcount), int(args.fieldcount), int(args.fieldlength))

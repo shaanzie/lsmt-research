@@ -1,7 +1,7 @@
 #!/bin/bash
 
 startup_workload() {
-    python3 /home/ubuntu/lsmt-research/mongo/setup_mongo.py --recordcount $1 --fieldcount $2 --fieldlength $3
+    python3 /benchsuite/mongo/setup_mongo.py --recordcount $1 --fieldcount $2 --fieldlength $3
 }
 
 execute_workload() {
@@ -26,7 +26,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="python3 /home/ubuntu/lsmt-research/mongo/benchmarks/workload.py --numops $ops --type $workload"
+    command="python3 /benchsuite/mongo/benchmarks/workload.py --numops $ops --type $workload"
 
     timepid=$!
     sleep 3

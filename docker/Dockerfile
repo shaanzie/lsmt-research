@@ -38,4 +38,4 @@ cd /rocksdb; \
 DEBUG_LEVEL=0 make static_lib ; \
 ldconfig
 
-RUN apt-get install -y sysstat ;
+RUN apt-get install -y sysstat nano libboost-all-dev;
