@@ -3,6 +3,7 @@
 import argparse
 import pymongo
 import random
+import string
 import Workload
 
 def get_random_sting(length):
@@ -41,19 +42,23 @@ if(args.type == 'readAndModify'):
     updateprop = 0.48
 
 query_gen = Workload.QueryGenerator(readprop, writeprop, updateprop)
+fieldcount = 10
+fieldlength = 100
 
 to_search = get_random_sting(1)
 query = {"col-1": {"$regex": "^" + to_search}}
 newvalue = {"$set": {"col-1": "Hello World!"}}
-insertQuery = {}
-for j in range(fieldcount):
-    insertQuery["col-" + j] = get_random_sting(fieldlength)
 
-for i in range(args.numops):
+
+for i in range(int(args.numops)):
     query_type = query_gen.get_query_type()
     if(query_type == 'READ'):
         x = collect.find_one(query)
     if(query_type == 'WRITE'):
-        x = collect.insert(insertQuery)
+        insertQuery = {}
+        for j in range(fieldcount):
+            insertQuery["col-" + str(j)] = get_random_sting(int(fieldlength))
+        x = collect.insert_one(insertQuery)
+        del insertQuery
     if(query_type == 'UPDATE'):
         x = collect.find_one_and_update(query, newvalue)

@@ -2,7 +2,7 @@ FROM mongo:latest
 
 RUN apt-get update
 
-RUN apt-get install python3 openjdk-8-jdk -y
+RUN apt-get install python3.8 openjdk-8-jdk -y
 
 RUN apt-get install python3-pip git wget -y && pip3 install pymongo
 
