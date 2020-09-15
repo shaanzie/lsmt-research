@@ -27,5 +27,9 @@ To run the docker container
 ```
 docker pull shaanzie/lsmt:latest OR docker build docker/. -t shaanzie/lsmt
 docker run -it -v <PATH>/lsmt-research:/benchsuite --name test -d shaanzie/lsmt
-docker exec test bash
+docker exec -it test bash
+cd /benchsuite/scripts/benchmarking
+cmake .
+make
+cp Workload.so /benchsuite/<DB-name>/
 ```
