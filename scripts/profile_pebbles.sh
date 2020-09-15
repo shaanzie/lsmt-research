@@ -1,7 +1,10 @@
 #!/bin/bash
 
 startup_workload() {
-    g++ /home/ubuntu/lsmt-research/pebblesdb/setup_pebblesdb.cpp -lpebblesdb -lsnappy -lpthread -std=c++17
+    mkdir -p /dbs
+    g++ /benchsuite/pebblesdb/setup_pebblesdb.cpp -lpebblesdb -lsnappy -lpthread -std=c++17
+    ./a.out $1 /dbs/pebbles
+    g++ /benchsuite/pebblesdb/benchmarks/benchmark_workload.cpp -lpebblesdb -lsnappy -lpthread --std=c++17
 }
 
 execute_workload() {
@@ -26,7 +29,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./a.out $ops /db $workload"
+    command="./a.out $ops /dbs/level $workload"
 
     timepid=$!
     sleep 3
@@ -75,3 +78,4 @@ mkdir -p ~/DB-data/pebblesdb
 mv *.csv ~/DB-data/pebblesdb
 mv *.pidstat ~/DB-data/pebblesdb
 rm $sar_file
+rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs

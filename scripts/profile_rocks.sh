@@ -1,7 +1,10 @@
 #!/bin/bash
 
 startup_workload() {
-    g++ /home/ubuntu/lsmt-research/rocksdb/setup_rocksdb.cpp -lrocksdb -lsnappy -lpthread -std=c++17
+    mkdir -p /dbs
+    g++ /benchsuite/rocksdb/setup_rocksdb.cc -lrocksdb -lsnappy -lpthread -std=c++17
+    ./a.out $1 /dbs/rocks
+    g++ /benchsuite/rocksdb/benchmarks/benchmark_workload.cc -lrocksdb -lsnappy -lpthread --std=c++17
 }
 
 execute_workload() {
@@ -26,7 +29,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./a.out $ops /db $workload"
+    command="./a.out $ops /dbs/rocks $workload"
 
     timepid=$!
     sleep 3
@@ -75,3 +78,4 @@ mkdir -p ~/DB-data/rocksdb
 mv *.csv ~/DB-data/rocksdb
 mv *.pidstat ~/DB-data/rocksdb
 rm $sar_file
+rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs

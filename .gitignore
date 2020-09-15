@@ -133,3 +133,8 @@ keys/
 *.pidstat
 scripts/benchmarking/CMakeFiles/
 scripts/benchmarking/CMakeCache*
+*out
+CURRENT
+LOCK
+LOG*
+MANIFEST*

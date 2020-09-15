@@ -32,12 +32,6 @@ cd include; \
 scp -r leveldb /usr/local/include; \
 ldconfig
 
-RUN apt-get install -y libgflags-dev libsnappy-dev zlib1g-dev libbz2-dev libzstd-dev build-essential ; \
-git clone https://github.com/facebook/rocksdb.git /rocksdb; \
-cd /rocksdb; \
-DEBUG_LEVEL=0 make static_lib ; \
-ldconfig
-
 RUN apt-get install -y sysstat nano libboost-all-dev;
 
 RUN apt-get install libssl-dev; \
@@ -46,3 +40,14 @@ tar -xvf cmake-3.18.2.tar.gz; \
 cd cmake-3.18.2; \
 ./bootstrap; \
 make && make install
+
+RUN apt-get install -y libgflags-dev libsnappy-dev zlib1g-dev libbz2-dev libzstd-dev build-essential ; \
+git clone https://github.com/facebook/rocksdb.git /rocksdb; \
+cd /rocksdb; \ 
+mkdir -p build && cd build; \
+cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build . ; \
+cp librocksdb.* /usr/local/lib; \
+cp librocksdb.* /usr/lib; \
+cd .. && cd include; \
+cp -R rocksdb /usr/local/include/; \
+ldconfig

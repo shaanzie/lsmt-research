@@ -1,7 +1,10 @@
 #!/bin/bash
 
 startup_workload() {
-    g++ /home/ubuntu/lsmt-research/leveldb/setup_leveldb.cpp -lleveldb -lsnappy -lpthread -std=c++17
+    mkdir -p /dbs
+    g++ /benchsuite/leveldb/setup_leveldb.cpp -lleveldb -lsnappy -lpthread -std=c++17
+    ./a.out $1 /dbs/level
+    g++ /benchsuite/leveldb/benchmarks/benchmark_workload.cpp -lleveldb -lsnappy -lpthread --std=c++17
 }
 
 execute_workload() {
@@ -26,7 +29,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./a.out $ops /db $workload"
+    command="./a.out $ops /dbs/level $workload"
 
     timepid=$!
     sleep 3
@@ -75,3 +78,4 @@ mkdir -p ~/DB-data/leveldb
 mv *.csv ~/DB-data/leveldb
 mv *.pidstat ~/DB-data/leveldb
 rm $sar_file
+rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs
