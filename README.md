@@ -25,6 +25,7 @@ We also provide the following options for the setup
 ```
 To run the docker container
 ```
-docker run -it -v <PATH>/lsmt-research:/benchsuite --name test -d lsmt
+docker pull shaanzie/lsmt:latest OR docker build docker/. -t shaanzie/lsmt
+docker run -it -v <PATH>/lsmt-research:/benchsuite --name test -d shaanzie/lsmt
 docker exec test bash
 ```
