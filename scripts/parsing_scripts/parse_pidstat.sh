@@ -10,6 +10,6 @@ for FILE in $1/*/*pidstat.csv; do
     echo "Done $FILE"
 done
     
-tar -cvf Pidstat-plots.tar.gz *png
+tar -cvf Pidstat-plots.zip *png
 rm *png
-mv Pidstat-plots.tar.gz $1/
+mv Pidstat-plots.zip $1/

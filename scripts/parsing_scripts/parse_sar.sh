@@ -6,6 +6,6 @@ for FILE in $1/*/sar*.csv; do
     echo "Done $FILE"
 done
 
-tar -cvf SAR-plots.tar.gz *png
+tar -cvf SAR-plots.zip *png
 rm *png
-mv SAR-plots.tar.gz $1/
+mv SAR-plots.zip $1/
