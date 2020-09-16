@@ -74,8 +74,8 @@ execute_workload "leveldb" "read_heavy" $numops
 
 execute_workload "leveldb" "read_and_modify" $numops
 
-mkdir -p ~/DB-data/leveldb
-mv *.csv ~/DB-data/leveldb
-mv *.pidstat ~/DB-data/leveldb
+mkdir -p /benchsuite/results/leveldb
+mv *.csv /benchsuite/results/leveldb
+mv *.pidstat /benchsuite/results/leveldb
 rm $sar_file
 rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs

@@ -74,7 +74,7 @@ execute_workload "cassandra" "updateHeavy" $numops
 
 execute_workload "cassandra" "readAndModify" $numops
 
-mkdir -p ~/DB-data/cassandra/$size/
-mv *.csv ~/DB-data/cassandra/$size/
-mv *.pidstat ~/DB-data/cassandra/$size/
+mkdir -p /benchsuite/results/cassandra/
+mv *.csv /benchsuite/results/cassandra/
+mv *.pidstat /benchsuite/results/cassandra/
 rm $sar_file

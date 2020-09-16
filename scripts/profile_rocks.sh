@@ -74,8 +74,8 @@ execute_workload "rocksdb" "read_heavy" $numops
 
 execute_workload "rocksdb" "read_and_modify" $numops
 
-mkdir -p ~/DB-data/rocksdb
-mv *.csv ~/DB-data/rocksdb
-mv *.pidstat ~/DB-data/rocksdb
+mkdir -p /benchsuite/results/rocksdb
+mv *.csv /benchsuite/results/rocksdb
+mv *.pidstat /benchsuite/results/rocksdb
 rm $sar_file
 rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs

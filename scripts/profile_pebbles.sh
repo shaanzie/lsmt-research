@@ -74,8 +74,8 @@ execute_workload "pebblesdb" "read_heavy" $numops
 
 execute_workload "pebblesdb" "read_and_modify" $numops
 
-mkdir -p ~/DB-data/pebblesdb
-mv *.csv ~/DB-data/pebblesdb
-mv *.pidstat ~/DB-data/pebblesdb
+mkdir -p /benchsuite/results/pebblesdb
+mv *.csv /benchsuite/results/pebblesdb
+mv *.pidstat /benchsuite/results/pebblesdb
 rm $sar_file
 rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs

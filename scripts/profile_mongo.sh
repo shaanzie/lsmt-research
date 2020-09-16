@@ -77,7 +77,7 @@ execute_workload "mongodb" "readHeavy" $numops
 
 execute_workload "mongodb" "readAndModify" $numops
 
-mkdir -p /home/shaanzie/DB-data/mongodb
-mv *.csv /home/shaanzie/DB-data/mongodb
-mv *.pidstat /home/shaanzie/DB-data/mongodb
+mkdir -p /benchsuite/results/DB-data/mongodb
+mv *.csv /benchsuite/results/DB-data/mongodb
+mv *.pidstat /benchsuite/results/DB-data/mongodb
 rm $sar_file
