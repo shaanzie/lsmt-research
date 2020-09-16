@@ -64,6 +64,6 @@ def populateTable(session, nfields, nrows):
 if __name__ == "__main__": 
     session, cluster = cassandra_connection()
     dropTable(session)
-    createTable(session, args.numFields)
-    populateTable(session, args.numFields, args.numRows)
+    createTable(session, int(args.numFields))
+    populateTable(session, int(args.numFields), int(args.numRows))
 

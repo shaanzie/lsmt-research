@@ -83,7 +83,7 @@ if(args.type == 'readAndModify'):
 query_gen = Workload.QueryGenerator(readprop, writeprop, updateprop)
 numRows = session.execute('SELECT count(*) FROM test;')[0].count
 
-for i in range(args.numops):
+for i in range(int(args.numops)):
     query_type = query_gen.get_query_type()
     if(query_type == 'READ'):
         read_query(session)

@@ -1,12 +1,13 @@
 #!/bin/bash
 
 startup_workload() {
-    ~/ycsb/bin/ycsb load cassandra workloads/$1
+    python3 /benchsuite/cassandra/setup_cassandra.py --numRows $1 --numFields 10
 }
 
 execute_workload() {
     bench=$1
     workload=$2
+    ops=$3
     sar_delay=1
     sar_csv=sar_${bench}-${workload}.csv
     pidstat_file=${bench}-${workload}.pidstat
@@ -24,7 +25,7 @@ execute_workload() {
     sync
     sleep 1
 
-    command="~/ycsb/bin/ycsb run cassandra workloads/$workload"
+    command="python3 /benchsuite/cassandra/workload.py --numops $ops --type $workload"
 
     echo "Executing $command"
 
@@ -49,24 +50,29 @@ execute_workload() {
     sleep 5
 }
 
-startup_workload "workloada"
-execute_workload "cassandra" "workloada"
+recordcount=1000
+numops=10000
 
-startup_workload "workloadb"
-execute_workload "cassandra" "workloadb"
+while getopts ":cfln" opt; do
+    case ${opt} in
+        c ) $recordcount=$OPTARG
+        ;;
+        n ) $numops=$OPTARG
+        ;;
+        \? ) echo "Usage: bash profile_level.sh [-c] [-n]"
+        ;;
+    esac
+done
 
-startup_workload "workloadc"
-execute_workload "cassandra" "workloadc"
+startup_workload $recordcount
 
-startup_workload "workloadd"
-execute_workload "cassandra" "workloadd"
+execute_workload "cassandra" "readHeavy" $numops
 
-startup_workload "workloade"
-execute_workload "cassandra" "workloade"
+execute_workload "cassandra" "writeHeavy" $numops
 
-startup_workload "workloadf"
-execute_workload "cassandra" "workloadf"
+execute_workload "cassandra" "updateHeavy" $numops
 
+execute_workload "cassandra" "readAndModify" $numops
 
 mkdir -p ~/DB-data/cassandra/$size/
 mv *.csv ~/DB-data/cassandra/$size/
