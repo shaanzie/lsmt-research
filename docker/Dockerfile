@@ -4,7 +4,7 @@ RUN apt-get update
 
 RUN apt-get install python3.8 openjdk-8-jdk -y
 
-RUN apt-get install python3-pip git wget -y && pip3 install pymongo
+RUN apt-get install python3-pip git wget -y && pip3 install pymongo cassandra-driver
 
 RUN sh -c 'echo "deb http://www.apache.org/dist/cassandra/debian 40x main" > /etc/apt/sources.list.d/cassandra.list'; \
 wget -q -O - https://www.apache.org/dist/cassandra/KEYS | apt-key add -; \
