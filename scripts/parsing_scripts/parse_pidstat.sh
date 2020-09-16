@@ -6,7 +6,7 @@ for FILE in $1/*/*.pidstat; do
 done
 
 for FILE in $1/*/*pidstat.csv; do
-    python3 Graphing-Pidstat.py $FILE
+    python3 Graphing-Pidstat-accumulated.py $FILE
     echo "Done $FILE"
 done
     
