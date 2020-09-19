@@ -9,27 +9,33 @@ private:
 
   workload_properties* properties_;
 
-  std::string get_random_key(long long int range_low = 0, long long int range_high = 10000){
+
+  int num_cols_;
+  int num_chars_per_col_;
+  long long int key_range_low_;
+  long long key_range_high_;
+
+  std::string get_random_key(){
     // not ideal. with a big range, most of the reads will be to keys not already written.
     // Given bloom filter optimizations in DBs, its unlikely we will ever have a db query go search the sstables
     // This is just a  temporary fix, will be rewritten considering other issues with the design adn expected behaviour.
 
-    return std::to_string(rand() % range_high + range_low);
+    return std::to_string(rand() % this -> key_range_high_ + this -> key_range_low_);
   }
 
-  std::string get_random_value(int num_cols = 10, int num_chars_per_string = 100){
+  std::string get_random_value(){
 
     std::string new_value, new_column_value;
 
-    new_value.reserve(num_cols + num_chars_per_string * num_cols);
-    new_column_value.reserve(num_chars_per_string);
+    new_value.reserve(this -> num_cols_ + this -> num_chars_per_col_ * this -> num_cols_);
+    new_column_value.reserve(this -> num_chars_per_col_);
 
     new_value = "";
 
-    for(int i = 0; i < num_cols; ++i){
+    for(int i = 0; i < this -> num_cols_; ++i){
       new_column_value = "";
 
-      for(int j = 0; j < num_chars_per_string; ++j){
+      for(int j = 0; j < this -> num_chars_per_col_; ++j){
           new_column_value += std::to_string(rand() % 10);
       }
 
@@ -43,11 +49,21 @@ private:
 
 public:
 
-  Workload(T1 opened_db, T2 read_options, T3 write_options, workload_properties* properties){
+  Workload(T1 opened_db, T2 read_options, T3 write_options,
+          workload_properties* properties,
+          int num_cols = 10, int num_chars_per_col = 100,
+          long long int key_range_low = 0,
+          long long int key_range_high = 10000){
+
     this -> db_ = opened_db;
     this -> read_options_ = read_options;
     this -> write_options_ = write_options;
     this -> properties_ = properties;
+
+    this -> num_cols_ = num_cols;
+    this -> num_chars_per_col_ = num_chars_per_col,
+    this -> key_range_low_ = key_range_low;
+    this -> key_range_high_ = key_range_high;
 
     srand(time(NULL));
   }
