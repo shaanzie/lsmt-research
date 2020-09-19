@@ -9,8 +9,12 @@ private:
 
   workload_properties* properties_;
 
-  std::string get_random_key(){
-    return "1";
+  std::string get_random_key(long long int range_low = 0, long long int range_high = 10000){
+    // not ideal. with a big range, most of the reads will be to keys not already written.
+    // Given bloom filter optimizations in DBs, its unlikely we will ever have a db query go search the sstables
+    // This is just a  temporary fix, will be rewritten considering other issues with the design adn expected behaviour.
+
+    return std::to_string(rand() % range_high + range_low);
   }
 
   std::string get_random_value(int num_cols = 10, int num_chars_per_string = 100){
@@ -32,8 +36,7 @@ private:
       new_value += new_column_value + ";";
     }
 
-    std::cout << new_value << std::endl;
-
+    // std::cout << new_value << std::endl;
     return new_value;
 
   }
