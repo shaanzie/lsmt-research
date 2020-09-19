@@ -13,8 +13,29 @@ private:
     return "1";
   }
 
-  std::string get_random_value(){
-    return "2";
+  std::string get_random_value(int num_cols = 10, int num_chars_per_string = 100){
+
+    std::string new_value, new_column_value;
+
+    new_value.reserve(num_cols + num_chars_per_string * num_cols);
+    new_column_value.reserve(num_chars_per_string);
+
+    new_value = "";
+
+    for(int i = 0; i < num_cols; ++i){
+      new_column_value = "";
+
+      for(int j = 0; j < num_chars_per_string; ++j){
+          new_column_value += std::to_string(rand() % 10);
+      }
+
+      new_value += new_column_value + ";";
+    }
+
+    std::cout << new_value << std::endl;
+
+    return new_value;
+
   }
 
 public:
@@ -24,6 +45,8 @@ public:
     this -> read_options_ = read_options;
     this -> write_options_ = write_options;
     this -> properties_ = properties;
+
+    srand(time(NULL));
   }
 
   std::string read(std::string key){
