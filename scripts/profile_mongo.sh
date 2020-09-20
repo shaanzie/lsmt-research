@@ -4,6 +4,10 @@ startup_workload() {
     python3 /benchsuite/mongo/setup_mongo.py --recordcount $1 --fieldcount $2 --fieldlength $3
 }
 
+set_path() {
+    export PATH=$PATH:/home/ubuntu/tools/pmu-tools
+}
+
 execute_workload() {
     bench=$1
     workload=$2
@@ -11,6 +15,7 @@ execute_workload() {
     sar_delay=1
     sar_csv=sar_${bench}-${workload}.csv
     pidstat_file=${bench}-${workload}.pidstat
+    perf_file=${bench}-${workload}.csv
 
     sar_file=sar_out
     rm $sar_file
@@ -21,6 +26,7 @@ execute_workload() {
 
     sar -r ALL -u ALL -o $sar_file $sar_delay >/dev/null 2>&1 &
     sar_process=$!
+    killall perf
 
     sync
     sleep 1
@@ -33,6 +39,9 @@ execute_workload() {
 
     pidstat -h -d -r -s -u -T ALL $sar_delay -e $command > $pidstat_file
     pidstat=$!
+
+    set_path
+    toplev.py -l3 -I 1000 -x, -o $perf_file bash $command  
 
     echo "killing sar"
     kill -9 $sar_process
