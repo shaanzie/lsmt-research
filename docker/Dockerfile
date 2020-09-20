@@ -53,4 +53,5 @@ cp -R rocksdb /usr/local/include/; \
 ldconfig
 
 RUN git clone https://github.com/andikleen/pmu-tools.git /pmu-tools; \
-export PATH=/pmu-tools:$PATH
+export PATH=/pmu-tools:$PATH; \
+apt-get install linux-tools-common linux-tools-generic linux-tools-5.3.0-1034-aws -y

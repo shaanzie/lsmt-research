@@ -5,7 +5,7 @@ startup_workload() {
 }
 
 set_path() {
-    export PATH=$PATH:/pmu-tools
+    export PATH=$PATH:/home/ubuntu/pmu-tools
 }
 
 execute_workload() {

@@ -6,6 +6,9 @@ startup_workload() {
     ./a.out $1 /dbs/pebbles
     g++ /benchsuite/pebblesdb/benchmarks/benchmark_workload.cpp -lpebblesdb -lsnappy -lpthread --std=c++17
 }
+set_path() {
+    export PATH=$PATH:/home/ubuntu/pmu-tools
+}
 
 execute_workload() {
     bench=$1
@@ -45,6 +48,11 @@ execute_workload() {
     kill -9 $pidstat
     sleep 1
 
+    perf_file=${bench}-${workload}.csv
+    killall perf
+    set_path
+    toplev.py -l3 -I 1000 -x, -o $perf_file bash $command  
+
     sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
 
     sleep 5
@@ -74,8 +82,8 @@ execute_workload "pebblesdb" "read_heavy" $numops
 
 execute_workload "pebblesdb" "read_and_modify" $numops
 
-mkdir -p /benchsuite/results/pebblesdb
-mv *.csv /benchsuite/results/pebblesdb
-mv *.pidstat /benchsuite/results/pebblesdb
+mkdir -p /home/ubuntu/benchsuite-results/pebblesdb
+mv *.csv /home/ubuntu/benchsuite-results/pebblesdb
+mv *.pidstat /home/ubuntu/benchsuite-results/pebblesdb
 rm $sar_file
 rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs

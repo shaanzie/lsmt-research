@@ -4,6 +4,10 @@ startup_workload() {
     python3 /benchsuite/cassandra/setup_cassandra.py --numRows $1 --numFields 10
 }
 
+set_path() {
+    export PATH=$PATH:/home/ubuntu/pmu-tools
+}
+
 execute_workload() {
     bench=$1
     workload=$2
@@ -45,6 +49,11 @@ execute_workload() {
     kill -9 $pidstat
     sleep 1
 
+    perf_file=${bench}-${workload}.csv
+    killall perf
+    set_path
+    toplev.py -l3 -I 1000 -x, -o $perf_file bash $command  
+
     sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
 
     sleep 5
@@ -74,7 +83,7 @@ execute_workload "cassandra" "updateHeavy" $numops
 
 execute_workload "cassandra" "readAndModify" $numops
 
-mkdir -p /benchsuite/results/cassandra/
-mv *.csv /benchsuite/results/cassandra/
-mv *.pidstat /benchsuite/results/cassandra/
+mkdir -p /home/ubuntu/benchsuite-results/cassandra/
+mv *.csv /home/ubuntu/benchsuite-results/cassandra/
+mv *.pidstat /home/ubuntu/benchsuite-results/cassandra/
 rm $sar_file
