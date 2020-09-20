@@ -51,3 +51,6 @@ cp librocksdb.* /usr/lib; \
 cd .. && cd include; \
 cp -R rocksdb /usr/local/include/; \
 ldconfig
+
+RUN git clone https://github.com/andikleen/pmu-tools.git /pmu-tools; \
+export PATH=/pmu-tools:$PATH
