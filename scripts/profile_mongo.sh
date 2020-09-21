@@ -89,4 +89,5 @@ execute_workload "mongodb" "readAndModify" $numops
 mkdir -p ~/benchsuite-results/mongodb
 mv *.csv ~/benchsuite-results/mongodb
 mv *.pidstat ~/benchsuite-results/mongodb
+mv *.perf ~/benchsuite-results/mongodb
 rm $sar_file

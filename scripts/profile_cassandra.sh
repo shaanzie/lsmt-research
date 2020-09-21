@@ -86,4 +86,5 @@ execute_workload "cassandra" "readAndModify" $numops
 mkdir -p /home/ubuntu/benchsuite-results/cassandra/
 mv *.csv /home/ubuntu/benchsuite-results/cassandra/
 mv *.pidstat /home/ubuntu/benchsuite-results/cassandra/
+mv *.perf ~/benchsuite-results/cassandra
 rm $sar_file

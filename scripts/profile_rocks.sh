@@ -85,5 +85,6 @@ execute_workload "rocksdb" "read_and_modify" $numops
 mkdir -p /home/ubuntu/benchsuite-results/rocksdb
 mv *.csv /home/ubuntu/benchsuite-results/rocksdb
 mv *.pidstat /home/ubuntu/benchsuite-results/rocksdb
+mv *.perf ~/benchsuite-results/rocsdb
 rm $sar_file
 rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs

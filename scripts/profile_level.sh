@@ -86,5 +86,6 @@ execute_workload "leveldb" "read_and_modify" $numops
 mkdir -p /home/ubuntu/benchsuite-results/leveldb
 mv *.csv /home/ubuntu/benchsuite-results/leveldb
 mv *.pidstat /home/ubuntu/benchsuite-results/leveldb
+mv *.perf ~/benchsuite-results/leveldb
 rm $sar_file
 rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs
