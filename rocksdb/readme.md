@@ -19,6 +19,15 @@ sudo ldconfig
 
 ```
 
+
+Note: cmake with gcc 9 has some issues that will result in errors.
+
+A quick workaround is to change ```cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build . ``` to ```cmake -DCMAKE_BUILD_TYPE=Debug .. && cmake --build . ```
+
+This, however, may result in executables running slower than they would when compiled in  ```Release``` mode.
+
+A (possibly) better fix is to change compiler versions since this works just fine with gcc10. [link](https://askubuntu.com/a/26518)
+
 ### Execution
 
 ```
