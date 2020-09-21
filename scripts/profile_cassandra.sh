@@ -1,7 +1,7 @@
 #!/bin/bash
 
 startup_workload() {
-    python3 /benchsuite/cassandra/setup_cassandra.py --numRows $1 --numFields 10
+    python3 /home/ubuntu/lsmt-research/cassandra/setup_cassandra.py --numRows $1 --numFields 10
 }
 
 set_path() {
@@ -29,7 +29,7 @@ execute_workload() {
     sync
     sleep 1
 
-    command="python3 /benchsuite/cassandra/workload.py --numops $ops --type $workload"
+    command="python3 /home/ubuntu/lsmt-research/cassandra/workload.py --numops $ops --type $workload"
 
     echo "Executing $command"
 

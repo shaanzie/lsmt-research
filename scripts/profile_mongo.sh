@@ -1,7 +1,7 @@
 #!/bin/bash
 
 startup_workload() {
-    python3 /benchsuite/mongo/setup_mongo.py --recordcount $1 --fieldcount $2 --fieldlength $3
+    python3 /home/ubuntu/lsmt-research/mongo/setup_mongo.py --recordcount $1 --fieldcount $2 --fieldlength $3
 }
 
 set_path() {
@@ -32,7 +32,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="python3  /benchsuite/mongo/workload.py --numops $ops --type $workload"
+    command="python3  /home/ubuntu/lsmt-research/mongo/workload.py --numops $ops --type $workload"
 
     timepid=$!
     sleep 3
@@ -86,7 +86,7 @@ execute_workload "mongodb" "readHeavy" $numops
 
 execute_workload "mongodb" "readAndModify" $numops
 
-mkdir -p /benchsuite/results/DB-data/mongodb
-mv *.csv /benchsuite/results/DB-data/mongodb
-mv *.pidstat /benchsuite/results/DB-data/mongodb
+mkdir -p ~/benchsuite-results/mongodb
+mv *.csv ~/benchsuite-results/mongodb
+mv *.pidstat ~/benchsuite-results/mongodb
 rm $sar_file

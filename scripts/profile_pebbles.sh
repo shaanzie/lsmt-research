@@ -1,10 +1,10 @@
 #!/bin/bash
 
 startup_workload() {
-    mkdir -p /dbs
-    g++ /benchsuite/pebblesdb/setup_pebblesdb.cpp -lpebblesdb -lsnappy -lpthread -std=c++17
-    ./a.out $1 /dbs/pebbles
-    g++ /benchsuite/pebblesdb/benchmarks/benchmark_workload.cpp -lpebblesdb -lsnappy -lpthread --std=c++17
+    mkdir -p /home/ubuntu/db-inp
+    g++ /home/ubuntu/lsmt-research/pebblesdb/setup_pebblesdb.cpp -lpebblesdb -lsnappy -lpthread -std=c++17
+    ./a.out $1 /home/ubuntu/db-inp/pebbles
+    g++ /home/ubuntu/lsmt-research/pebblesdb/benchmarks/benchmark_workload.cpp -lpebblesdb -lsnappy -lpthread --std=c++17
 }
 set_path() {
     export PATH=$PATH:/home/ubuntu/pmu-tools
@@ -32,7 +32,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./a.out $ops /dbs/level $workload"
+    command="./a.out $ops /home/ubuntu/db-inp/pebbles $workload"
 
     timepid=$!
     sleep 3

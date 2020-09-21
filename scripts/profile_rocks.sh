@@ -1,10 +1,10 @@
 #!/bin/bash
 
 startup_workload() {
-    mkdir -p /dbs
-    g++ /benchsuite/rocksdb/setup_rocksdb.cc -lrocksdb -lsnappy -lpthread -std=c++17
-    ./a.out $1 /dbs/rocks
-    g++ /benchsuite/rocksdb/benchmarks/benchmark_workload.cc -lrocksdb -lsnappy -lpthread --std=c++17
+    mkdir -p /home/ubuntu/db-inp
+    g++ /home/ubuntu/lsmt-research/rocksdb/setup_rocksdb.cc -lrocksdb -lsnappy -lpthread -std=c++17
+    ./a.out $1 /home/ubuntu/db-inp/rocks
+    g++ /home/ubuntu/lsmt-research/rocksdb/benchmarks/benchmark_workload.cc -lrocksdb -lsnappy -lpthread --std=c++17
 }
 set_path() {
     export PATH=$PATH:/home/ubuntu/pmu-tools
@@ -32,7 +32,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./a.out $ops /dbs/rocks $workload"
+    command="./a.out $ops /home/ubuntu/db-inp/rocks $workload"
 
     timepid=$!
     sleep 3

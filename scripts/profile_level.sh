@@ -1,10 +1,10 @@
 #!/bin/bash
 
 startup_workload() {
-    mkdir -p /dbs
-    g++ /benchsuite/leveldb/setup_leveldb.cpp -lleveldb -lsnappy -lpthread -std=c++17
-    ./a.out $1 /dbs/level
-    g++ /benchsuite/leveldb/benchmarks/benchmark_workload.cpp -lleveldb -lsnappy -lpthread --std=c++17
+    mkdir -p /home/ubuntu/db-inp
+    g++ /home/ubuntu/lsmt-research/leveldb/setup_leveldb.cpp -lleveldb -lsnappy -lpthread -std=c++17
+    ./a.out $1 /home/ubuntu/db-inp/level
+    g++ /home/ubuntu/lsmt-research/leveldb/benchmarks/benchmark_workload.cpp -lleveldb -lsnappy -lpthread --std=c++17
 }
 
 set_path() {
@@ -33,7 +33,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./a.out $ops /dbs/level $workload"
+    command="./a.out $ops /home/ubuntu/db-inp/level $workload"
 
     timepid=$!
     sleep 3
