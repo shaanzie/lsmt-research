@@ -15,7 +15,8 @@ execute_workload() {
     sar_delay=1
     sar_csv=sar_${bench}-${workload}.csv
     pidstat_file=${bench}-${workload}.pidstat
-    
+    time_file=${bench}-${workload}.txt
+    rm time_file
     sar_file=sar_out
     rm $sar_file
 
@@ -38,8 +39,10 @@ execute_workload() {
     sleep 3
 
     echo -e "Bash: $bashpid"
+    start=`date +%s`
     pidstat -h -d -r -s -u -T ALL $sar_delay -e $command > $pidstat_file
     pidstat=$!
+    end=`date +%s`
 
     echo "killing sar"
     kill -9 $sar_process
@@ -56,6 +59,7 @@ execute_workload() {
 
     sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
 
+    echo $((end-start)) > time_file
     sleep 5
 }
 

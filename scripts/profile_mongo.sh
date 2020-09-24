@@ -16,6 +16,9 @@ execute_workload() {
     sar_csv=sar_${bench}-${workload}.csv
     pidstat_file=${bench}-${workload}.pidstat
     perf_file=${bench}-${workload}.csv
+    time_file=${bench}-${workload}.txt
+
+    rm time_file
 
     sar_file=sar_out
     rm $sar_file
@@ -36,9 +39,10 @@ execute_workload() {
 
     timepid=$!
     sleep 3
-
+    start=`date +%s`
     pidstat -h -d -r -s -u -T ALL $sar_delay -e $command > $pidstat_file
     pidstat=$!
+    end=`date +%s`
 
     set_path
     toplev.py -l3 -I 1000 -x, -o $perf_file bash $command  
@@ -52,6 +56,8 @@ execute_workload() {
     sleep 1
 
     sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
+
+    echo $((end-start)) > time_file
 
     sleep 5
 }
