@@ -7,7 +7,13 @@ g++ setup-pebblesdb.cpp -lpebblesdb -lsnappy -lpthread
 
 ## Installation
 
-[WIP, but this works]
+
+run
+```
+sudo bash ./../scripts/install_DBs/install_pebblesdb.sh
+```
+
+or
 
 ```
 git clone https://github.com/utsaslab/pebblesdb.git
