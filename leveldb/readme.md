@@ -7,6 +7,12 @@ g++ setup_leveldb.cpp -lleveldb -lsnappy -lpthread -std=c++17
 
 ## Installation
 
+run
+```
+sudo bash ./../scripts/install_DBs/install_leveldb.sh
+```
+
+or
 ```
 git clone --recurse-submodules https://github.com/google/leveldb.git
 cd leveldb

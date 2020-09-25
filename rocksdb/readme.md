@@ -4,6 +4,13 @@
 [recommended]
 
 ### Installation
+
+run
+```
+sudo bash ./../scripts/install_DBs/install_rocksdb.sh
+```
+
+or
 ```
 
 mkdir -p build && cd build
