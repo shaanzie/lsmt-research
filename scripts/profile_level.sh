@@ -33,7 +33,7 @@ execute_workload() {
     sleep 1
 
     echo "Executing $command"
-    command="./a.out $ops /home/ubuntu/db-inp/level $workload"
+    command="cd ~/leveldb/build && ./db_bench --db=/home/aish/leveldb_database --benchmarks='$workload,stats' --histogram=1"
 
     timepid=$!
     sleep 3
@@ -56,6 +56,8 @@ execute_workload() {
 
     sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
 
+    mv latency.txt /home/aish/leveldb-results/$bench-$workload-latency.txt
+
     sleep 5
 }
 
@@ -73,18 +75,13 @@ while getopts ":cfln" opt; do
     esac
 done
 
-startup_workload $recordcount
+# startup_workload $recordcount
 
-execute_workload "leveldb" "write_heavy" $numops
+execute_workload "leveldb" "fillseq" $numops
 
-execute_workload "leveldb" "update_heavy" $numops
+execute_workload "leveldb" "fillrandom" $numops
 
-execute_workload "leveldb" "read_heavy" $numops
-
-execute_workload "leveldb" "read_and_modify" $numops
-
-mkdir -p /home/ubuntu/benchsuite-results/leveldb
-mv *.csv /home/ubuntu/benchsuite-results/leveldb
-mv *.pidstat /home/ubuntu/benchsuite-results/leveldb
+mkdir -p /home/aish/leveldb-results
+mv *.csv /home/aish/leveldb-results
+mv *.pidstat /home/aish/leveldb-results
 rm $sar_file
-rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs
