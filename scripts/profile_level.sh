@@ -35,7 +35,7 @@ execute_workload() {
     cd /home/aish/leveldb/build
 
     echo "Executing $command"
-    command="./db_bench --db=/home/aish/leveldb_database --benchmarks='$workload,stats' --histogram=1"
+    command="./db_bench --db=/home/aish/leveldb-results --benchmarks=$workload --histogram=1"
 
     timepid=$!
     sleep 3
@@ -87,3 +87,5 @@ mkdir -p /home/aish/leveldb-results
 mv *.csv /home/aish/leveldb-results
 mv *.pidstat /home/aish/leveldb-results
 rm $sar_file
+cd /home/aish/leveldb-results
+rm *.ldb LOCK CURRENT MANIFEST*
