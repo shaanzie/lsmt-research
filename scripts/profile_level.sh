@@ -8,7 +8,7 @@ startup_workload() {
 }
 
 set_path() {
-    export PATH=$PATH:/home/ubuntu/pmu-tools
+    export PATH=$PATH:/home/aish/pmu-tools
 }
 
 execute_workload() {
@@ -32,8 +32,10 @@ execute_workload() {
     sync
     sleep 1
 
+    cd /home/aish/leveldb/build
+
     echo "Executing $command"
-    command="cd ~/leveldb/build && ./db_bench --db=/home/aish/leveldb_database --benchmarks='$workload,stats' --histogram=1"
+    command="./db_bench --db=/home/aish/leveldb_database --benchmarks='$workload,stats' --histogram=1"
 
     timepid=$!
     sleep 3
