@@ -67,3 +67,10 @@ make install
 ```
 
 Ubuntu might need other dependecies. [This](https://gist.github.com/diegopacheco/e8ccd6e719628e30a2ad0de3cc60234c) might be helpful.
+
+## Running YCSB benchmarks
+
+clone this repo - [https://github.com/tejvi-m/YCSB_lsmt](https://github.com/tejvi-m/YCSB_lsmt)
+and follow the instructions for building and running benchmarks at [https://github.com/tejvi-m/YCSB_lsmt/tree/lsmt-research/rocksdb](https://github.com/tejvi-m/YCSB_lsmt/tree/lsmt-research/rocksdb)
+
+
