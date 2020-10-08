@@ -58,7 +58,7 @@ execute_workload() {
 
     sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
 
-    mv latency.txt /home/aish/leveldb-results/$bench-$workload-latency.txt
+    mv /home/aish/leveldb/build/latency.txt /home/aish/leveldb-results/$bench-$workload-latency.txt
 
     sleep 5
 }
