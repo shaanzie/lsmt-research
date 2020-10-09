@@ -32,7 +32,7 @@ execute_workload() {
     sync
     sleep 1
 
-    cd /home/aish/pebblesdb/build
+    cd /home/aish/pebblesdb/src
 
     echo "Executing $command"
     command="./db_bench --db=/home/aish/pebblesdb-results --benchmarks=$workload --histogram=1"
