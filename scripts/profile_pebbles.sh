@@ -3,11 +3,12 @@
 startup_workload() {
     mkdir -p /home/ubuntu/db-inp
     g++ /home/ubuntu/lsmt-research/pebblesdb/setup_pebblesdb.cpp -lpebblesdb -lsnappy -lpthread -std=c++17
-    ./a.out $1 /home/ubuntu/db-inp/pebbles
+    ./a.out $1 /home/ubuntu/db-inp/level
     g++ /home/ubuntu/lsmt-research/pebblesdb/benchmarks/benchmark_workload.cpp -lpebblesdb -lsnappy -lpthread --std=c++17
 }
+
 set_path() {
-    export PATH=$PATH:/home/ubuntu/pmu-tools
+    export PATH=$PATH:/home/aish/pmu-tools
 }
 
 execute_workload() {
@@ -31,8 +32,10 @@ execute_workload() {
     sync
     sleep 1
 
+    cd /home/aish/pebblesdb/build
+
     echo "Executing $command"
-    command="./a.out $ops /home/ubuntu/db-inp/pebbles $workload"
+    command="./db_bench --db=/home/aish/pebblesdb-results --benchmarks=$workload --histogram=1"
 
     timepid=$!
     sleep 3
@@ -55,6 +58,8 @@ execute_workload() {
 
     sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
 
+    mv latency.csv /home/aish/pebblesdb-results/$bench-$workload-latency.csv
+
     sleep 5
 }
 
@@ -72,18 +77,15 @@ while getopts ":cfln" opt; do
     esac
 done
 
-startup_workload $recordcount
+# startup_workload $recordcount
 
-execute_workload "pebblesdb" "write_heavy" $numops
+execute_workload "pebblesdb" "fillseq" $numops
 
-execute_workload "pebblesdb" "update_heavy" $numops
+execute_workload "pebblesdb" "fillrandom" $numops
 
-execute_workload "pebblesdb" "read_heavy" $numops
-
-execute_workload "pebblesdb" "read_and_modify" $numops
-
-mkdir -p /home/ubuntu/benchsuite-results/pebblesdb
-mv *.csv /home/ubuntu/benchsuite-results/pebblesdb
-mv *.pidstat /home/ubuntu/benchsuite-results/pebblesdb
+mkdir -p /home/aish/pebblesdb-results
+mv *.csv /home/aish/pebblesdb-results
+mv *.pidstat /home/aish/pebblesdb-results
 rm $sar_file
-rm -r a.out CURRENT LOCK LOG* MANIFEST* *.log /dbs
+cd /home/aish/pebblesdb-results
+rm *.ldb LOCK CURRENT MANIFEST*
