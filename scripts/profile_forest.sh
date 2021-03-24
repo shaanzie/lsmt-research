@@ -1,11 +1,11 @@
 #!/bin/bash
 
-startup_workload() {
-    mkdir -p /home/shaanzie/db-inp
-    g++ /home/shaanzie/lsmt-research/leveldb/setup_leveldb.cpp -lleveldb -lsnappy -lpthread -std=c++17
-    ./a.out $1 /home/shaanzie/db-inp/level
-    g++ /home/shaanzie/lsmt-research/leveldb/benchmarks/benchmark_workload.cpp -lleveldb -lsnappy -lpthread --std=c++17
-}
+# startup_workload() {
+#     mkdir -p /home/shaanzie/db-inp
+#     g++ /home/shaanzie/lsmt-research/leveldb/setup_leveldb.cpp -lleveldb -lsnappy -lpthread -std=c++17
+#     ./a.out $1 /home/shaanzie/db-inp/level
+#     g++ /home/shaanzie/lsmt-research/leveldb/benchmarks/benchmark_workload.cpp -lleveldb -lsnappy -lpthread --std=c++17
+# }
 
 set_path() {
     export PATH=$PATH:/home/shaanzie/pmu-tools
@@ -32,10 +32,10 @@ execute_workload() {
     sync
     sleep 1
 
-    cd /home/shaanzie/leveldb/build
+    cd /home/shaanzie/lsm_forest/build
 
     echo "Executing $command"
-    command="./db_bench --benchmarks=$workload --num=$ops --histogram=1 --db=/home/shaanzie/leveldb_dbfiles"
+    command="./db_bench --benchmarks=$workload --num=$ops --histogram=1 --db=/home/shaanzie/lsm_forestdb"
 
     timepid=$!
     sleep 3
@@ -58,7 +58,7 @@ execute_workload() {
 
     sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
 
-    mv latency.csv /home/shaanzie/leveldb-results/$bench-$workload-latency.csv
+    mv latency.csv /home/shaanzie/forest-results/$bench-$workload-latency.csv
 
     sleep 5
 }
@@ -79,13 +79,13 @@ done
 
 # startup_workload $recordcount
 
-execute_workload "leveldb" "fillseq" $numops
+execute_workload "forest" "fillseq" $numops
 
-execute_workload "leveldb" "fillrandom" $numops
+execute_workload "forest" "fillrandom" $numops
 
-mkdir -p /home/shaanzie/leveldb-results
-mv *.csv /home/shaanzie/leveldb-results
-mv *.pidstat /home/shaanzie/leveldb-results
+mkdir -p /home/shaanzie/forest-results
+mv *.csv /home/shaanzie/forest-results
+mv *.pidstat /home/shaanzie/forest-results
 rm $sar_file
-cd /home/shaanzie/leveldb-results
+cd /home/shaanzie/forest-results
 rm *.ldb LOCK CURRENT MANIFEST*
