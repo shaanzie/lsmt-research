@@ -15,11 +15,7 @@ execute_workload() {
     bench=$1
     workload=$2
     ops=$3
-    lsmnum=$4
-    fallbacks=$5
-    pr=$6
-    kv=$7
-    uc=$8
+
     sar_delay=1
     sar_csv=sar_${bench}-${workload}.csv
     pidstat_file=${bench}-${workload}.pidstat
@@ -84,17 +80,11 @@ done
 
 # startup_workload $recordcount
 
-lsmnum=5
-fallbacks=2
-pr=0
-kv=0
-uc=0
+execute_workload "leveldb" "fillseq" $numops
 
-execute_workload "leveldb" "fillseq" $numops $lsmnum $fallbacks $pr $kv $uc
+execute_workload "leveldb" "fillrandom" $numops
 
-execute_workload "leveldb" "fillrandom" $numops $lsmnum $fallbacks $pr $kv $uc
-
-execute_workload "leveldb" "readrandom" $numops $lsmnum $fallbacks $pr $kv $uc
+execute_workload "leveldb" "readrandom" $numops
 
 mkdir -p /home/ishaanl/leveldb-results
 mv *.csv /home/ishaanl/leveldb-results
@@ -102,5 +92,3 @@ mv *.pidstat /home/ishaanl/leveldb-results
 rm $sar_file
 cd /home/ishaanl/leveldb-results
 rm *.ldb LOCK CURRENT MANIFEST*
-
-echo $lsmnum,$fallbacks,$pr,$kv,$uc > config.txt
