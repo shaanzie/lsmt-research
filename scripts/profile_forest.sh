@@ -34,8 +34,9 @@ execute_workload() {
 
     cd /home/shaanzie/lsm_forest/build
 
-    echo "Executing $command"
     command="./db_bench --benchmarks=$workload --num=$ops --histogram=1 --db=/home/shaanzie/lsm_forestdb"
+
+    echo "Executing $command"
 
     timepid=$!
     sleep 3
@@ -82,6 +83,8 @@ done
 execute_workload "forest" "fillseq" $numops
 
 execute_workload "forest" "fillrandom" $numops
+
+execute_workload "forest" "readrandom" $numops
 
 mkdir -p /home/shaanzie/forest-results
 mv *.csv /home/shaanzie/forest-results

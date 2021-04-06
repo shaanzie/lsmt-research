@@ -33,10 +33,10 @@ execute_workload() {
     sleep 1
 
     cd /home/shaanzie/leveldb/build
-
-    echo "Executing $command"
     command="./db_bench --benchmarks=$workload --num=$ops --histogram=1 --db=/home/shaanzie/leveldb_dbfiles"
 
+
+    echo "Executing $command"
     timepid=$!
     sleep 3
 
@@ -82,6 +82,8 @@ done
 execute_workload "leveldb" "fillseq" $numops
 
 execute_workload "leveldb" "fillrandom" $numops
+
+execute_workload "leveldb" "readrandom" $numops
 
 mkdir -p /home/shaanzie/leveldb-results
 mv *.csv /home/shaanzie/leveldb-results
