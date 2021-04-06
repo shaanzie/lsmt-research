@@ -1,20 +1,25 @@
 #!/bin/bash
 
 startup_workload() {
-    mkdir -p /home/shaanzie/db-inp
-    g++ /home/shaanzie/lsmt-research/leveldb/setup_leveldb.cpp -lleveldb -lsnappy -lpthread -std=c++17
-    ./a.out $1 /home/shaanzie/db-inp/level
-    g++ /home/shaanzie/lsmt-research/leveldb/benchmarks/benchmark_workload.cpp -lleveldb -lsnappy -lpthread --std=c++17
+    mkdir -p /home/ishaanl/db-inp
+    g++ /home/ishaanl/lsmt-research/leveldb/setup_leveldb.cpp -lleveldb -lsnappy -lpthread -std=c++17
+    ./a.out $1 /home/ishaanl/db-inp/level
+    g++ /home/ishaanl/lsmt-research/leveldb/benchmarks/benchmark_workload.cpp -lleveldb -lsnappy -lpthread --std=c++17
 }
 
 set_path() {
-    export PATH=$PATH:/home/shaanzie/pmu-tools
+    export PATH=$PATH:/home/ishaanl/pmu-tools
 }
 
 execute_workload() {
     bench=$1
     workload=$2
     ops=$3
+    lsmnum=$4
+    fallbacks=$5
+    pr=$6
+    kv=$7
+    uc=$8
     sar_delay=1
     sar_csv=sar_${bench}-${workload}.csv
     pidstat_file=${bench}-${workload}.pidstat
@@ -32,8 +37,8 @@ execute_workload() {
     sync
     sleep 1
 
-    cd /home/shaanzie/leveldb/build
-    command="./db_bench --benchmarks=$workload --num=$ops --histogram=1 --db=/home/shaanzie/leveldb_dbfiles"
+    cd /home/ishaanl/leveldb/build
+    command="./db_bench --benchmarks=$workload --num=$ops --histogram=1 --db=/home/ishaanl/leveldb_dbfiles"
 
 
     echo "Executing $command"
@@ -58,7 +63,7 @@ execute_workload() {
 
     sadf -dh $sar_file -- -r ALL -u ALL > $sar_csv
 
-    mv latency.csv /home/shaanzie/leveldb-results/$bench-$workload-latency.csv
+    mv latency.csv /home/ishaanl/leveldb-results/$bench-$workload-latency.csv
 
     sleep 5
 }
@@ -79,15 +84,23 @@ done
 
 # startup_workload $recordcount
 
-execute_workload "leveldb" "fillseq" $numops
+lsmnum=5
+fallbacks=2
+pr=0
+kv=0
+uc=0
 
-execute_workload "leveldb" "fillrandom" $numops
+execute_workload "leveldb" "fillseq" $numops $lsmnum $fallbacks $pr $kv $uc
 
-execute_workload "leveldb" "readrandom" $numops
+execute_workload "leveldb" "fillrandom" $numops $lsmnum $fallbacks $pr $kv $uc
 
-mkdir -p /home/shaanzie/leveldb-results
-mv *.csv /home/shaanzie/leveldb-results
-mv *.pidstat /home/shaanzie/leveldb-results
+execute_workload "leveldb" "readrandom" $numops $lsmnum $fallbacks $pr $kv $uc
+
+mkdir -p /home/ishaanl/leveldb-results
+mv *.csv /home/ishaanl/leveldb-results
+mv *.pidstat /home/ishaanl/leveldb-results
 rm $sar_file
-cd /home/shaanzie/leveldb-results
+cd /home/ishaanl/leveldb-results
 rm *.ldb LOCK CURRENT MANIFEST*
+
+echo $lsmnum,$fallbacks,$pr,$kv,$uc > config.txt
