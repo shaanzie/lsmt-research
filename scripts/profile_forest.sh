@@ -94,11 +94,11 @@ uc=0
 
 mkdir -p /home/ishaanl/forest-results-$lsmnum-$fallbacks-$pr-$kv-$uc
 
-execute_workload "leveldb" "fillseq" $numops $lsmnum $fallbacks $pr $kv $uc
+execute_workload "forest" "fillseq" $numops $lsmnum $fallbacks $pr $kv $uc
 
-execute_workload "leveldb" "fillrandom" $numops $lsmnum $fallbacks $pr $kv $uc
+execute_workload "forest" "fillrandom" $numops $lsmnum $fallbacks $pr $kv $uc
 
-execute_workload "leveldb" "readrandom" $numops $lsmnum $fallbacks $pr $kv $uc
+execute_workload "forest" "readrandom" $numops $lsmnum $fallbacks $pr $kv $uc
 
 mv *.csv /home/ishaanl/forest-results-$lsmnum-$fallbacks-$pr-$kv-$uc
 mv *.pidstat /home/ishaanl/forest-results-$lsmnum-$fallbacks-$pr-$kv-$uc
